@@ -1,0 +1,26 @@
+name: Branch cleaner
+author: RiceBen
+description: Automate repo branches cleaner
+branding:
+  icon: trash-2
+  color: green
+inputs:
+  secToken:
+    description: 'Github secret token to access the repo'
+    default: ${{ github.token }}
+    required: true
+  protect-branch-name:
+    description: 'Specify branches cannot delete. No delete protected branch.'
+    required: false
+    default: 'main'
+  expiry-period-in-days:
+    description: 'Define the time period as expired.'
+    required: true
+    default: '90'
+  is-force-delete:
+    description: 'Delete the branch when it is merged into default branch.'
+    required: true
+    default: 'true'
+runs:
+  using: node20
+  main: 'dist/index.js'
