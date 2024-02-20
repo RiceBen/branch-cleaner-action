@@ -53,5 +53,9 @@ export async function filterByDate(
       one_day,
   );
 
+  core.debug(
+    `branch:${branch.data.name} latest commit date will expiry after ${result} days`,
+  );
+
   return result >= 0;
 }

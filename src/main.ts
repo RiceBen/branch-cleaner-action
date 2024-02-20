@@ -105,7 +105,7 @@ async function run() {
           },
         });
 
-        core.info(`Delete branch:${branchDetail.data.name}} finished.`);
+        core.info(`Delete branch:${branchDetail.data.name} finished.`);
       }
     }
 
