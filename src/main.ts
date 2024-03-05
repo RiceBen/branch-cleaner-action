@@ -30,7 +30,7 @@ async function run() {
       !inputs.protectBranchNames.includes(defaultBranch.data.default_branch)
     ) {
       inputs.protectBranchNames.push(defaultBranch.data.default_branch);
-      core.debug(
+      core.info(
         `Insert ${defaultBranch.data.default_branch} into protected branches list`,
       );
     }
@@ -59,7 +59,7 @@ async function run() {
     core.startGroup('Cleaner process start');
 
     for (const branch in targetBranches) {
-      core.debug(`Candidate Branch:${targetBranches[branch]}`);
+      core.info(`Candidate Branch:${targetBranches[branch]}`);
 
       const branchDetail = await octokit.rest.repos.getBranch({
         owner: targetOwner,
@@ -84,7 +84,7 @@ async function run() {
           },
         });
 
-        core.debug(
+        core.info(
           `branch ${branchDetail.data.name} compare with ${defaultBranch.data.default_branch} status:${result.data.status}`,
         );
 
@@ -92,7 +92,7 @@ async function run() {
           core.info(
             `Will not delete branch:${branchDetail.data.name} cause of isForceDelete:${inputs.isForceDelete} && ahead commit:${result.data.ahead_by}`,
           );
-          return;
+          continue;
         }
 
         await octokit.rest.git.deleteRef({
@@ -115,4 +115,4 @@ async function run() {
   }
 }
 
-run().then(r => core.info('Cleaner process Finished'));
+run().then(() => core.info('Cleaner process Finished'));
