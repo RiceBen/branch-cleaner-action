@@ -16,7 +16,9 @@ export async function filterByBranches(
       const {name} = item;
       return {name};
     })
-    .filter(item => isBranchNameCanBeDelete(item.name, settings.protectBranchNames));
+    .filter(item =>
+      isBranchNameCanBeDelete(item.name, settings.protectBranchNames),
+    );
 
   return result.map(item => {
     return item.name;
@@ -64,5 +66,9 @@ function isBranchNameCanBeDelete(
   branchName: string,
   protectBranchNames: string[],
 ): boolean {
-  return !protectBranchNames.includes(branchName);
+  const result = protectBranchNames.some((name: string) => {
+    return branchName.match(`^${name}`) !== null;
+  });
+
+  return !result;
 }
