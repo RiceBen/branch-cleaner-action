@@ -176,6 +176,43 @@ describe('branch-helper branch name filter logic test suites', () => {
       expect(actual.length).toBe(0);
     },
   );
+  it.each(onlyOneNonProtectedBranch)(
+    'only one non-protected branch and regex pattern matched',
+    async branches => {
+      // arrange
+      const mockInputs: IActionInputsSettings = {
+        isForceDelete: true,
+        expiryDays: 90,
+        protectBranchNames: ['main', 'master', 'hotfix/*'],
+      };
+      // act
+      const actual: string[] = await helper.filterByBranches(
+        branches,
+        mockInputs,
+      );
+      // action
+      expect(actual.length).toBe(0);
+    },
+  );
+
+  it.each(onlyOneNonProtectedBranch)(
+    'only one non-protected branch and regex pattern not matched',
+    async branches => {
+      // arrange
+      const mockInputs: IActionInputsSettings = {
+        isForceDelete: true,
+        expiryDays: 90,
+        protectBranchNames: ['main', 'master', 'release/*'],
+      };
+      // act
+      const actual: string[] = await helper.filterByBranches(
+        branches,
+        mockInputs,
+      );
+      // action
+      expect(actual.length).toBe(1);
+    },
+  );
 
   it.each(multiNonProtectedBranches)(
     'multiple non-protected branches and match one protected branch',
@@ -233,6 +270,48 @@ describe('branch-helper branch name filter logic test suites', () => {
           'hotfix/some-issue',
           'feature/some-feature-branch',
         ],
+      };
+      // act
+      const actual: string[] = await helper.filterByBranches(
+        branches,
+        mockInputs,
+      );
+      // assert
+      expect(actual.length).toBe(0);
+    },
+  );
+
+  it.each(multiNonProtectedBranches)(
+    'multiple non-protected branches and no regex pattern match any protected branch',
+    async branches => {
+      // arrange
+      const mockInputs: IActionInputsSettings = {
+        isForceDelete: true,
+        expiryDays: 90,
+        protectBranchNames: ['main', 'master', 'fixed/*', 'released/*'],
+      };
+      // act
+      const actual: string[] = await helper.filterByBranches(
+        branches,
+        mockInputs,
+      );
+      // assert
+      expect(actual.length).toBe(2);
+      expect(actual).toEqual([
+        'hotfix/some-issue',
+        'feature/some-feature-branch',
+      ]);
+    },
+  );
+
+  it.each(multiNonProtectedBranches)(
+    'multiple non-protected branches and all regex pattern match protected branch',
+    async branches => {
+      // arrange
+      const mockInputs: IActionInputsSettings = {
+        isForceDelete: true,
+        expiryDays: 90,
+        protectBranchNames: ['main', 'master', 'hotfix/*', 'feature/*'],
       };
       // act
       const actual: string[] = await helper.filterByBranches(
