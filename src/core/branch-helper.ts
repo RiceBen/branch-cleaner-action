@@ -28,7 +28,7 @@ export async function filterByBranches(
 export async function filterByDate(
   branch: RestEndpointMethodTypes['repos']['getBranch']['response'],
   settings: IActionInputsSettings,
-  present_date: Date,
+  present_date: Date
 ): Promise<boolean> {
   // check the branch latest commit date
   if (isNaN(Date.parse(branch.data.commit.commit.committer?.date ?? ''))) {
@@ -55,7 +55,7 @@ export async function filterByDate(
       one_day,
   );
 
-  core.debug(
+  core.info(
     `branch:${branch.data.name} latest commit date will expiry after ${result} days`,
   );
 
