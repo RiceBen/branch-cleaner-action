@@ -36,7 +36,7 @@ jobs:
       contents: write
     steps:
       - name: Clean Branches
-        uses: RiceBen/branch-cleaner-action@v1.0.0
+        uses: RiceBen/branch-cleaner-action@v1.1.0
         with:
           # Personal access token (PAT) used to fetch the repository. The PAT is configured
           # with the local git config, which enables your scripts to run authenticated git
@@ -52,3 +52,19 @@ jobs:
           # Force delete the branch which is expiry no matter it has commits ahead
           is-force-delete: false
 ```
+
+## How To Build
+
+It's recommand to use [Volta](https://volta.sh/) to management node engine.
+
+- checkout the directory of the project root floder
+
+- `volta pin node@20`
+  - Use the version 20 or above, you can check the version that specify in `package.json` file.
+
+- `npm install`
+
+- `npm run test`
+
+- `npm run build`
+  - After execution you will update the `index.js` in `dict` directory.

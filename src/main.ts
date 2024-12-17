@@ -115,4 +115,6 @@ async function run() {
   }
 }
 
-run().then(() => core.info('Cleaner process Finished'));
+run()
+  .then(() => core.info('Cleaner process Finished'))
+  .catch(error => core.setFailed((error as Error).message));
