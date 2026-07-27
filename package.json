@@ -32,11 +32,11 @@
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
-    "@types/node": "^26.0.1",
-    "@vercel/ncc": "^0.44.0",
+    "@types/node": "^26.1.2",
+    "@vercel/ncc": "^0.44.1",
     "gts": "^7.0.0",
     "jest": "^30.4.2",
-    "ts-jest": "^29.4.11",
+    "ts-jest": "^29.4.12",
     "typescript": "^6.0.3"
   }
 }
